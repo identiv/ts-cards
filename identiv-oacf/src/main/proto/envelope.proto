@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package com.identiv.shared.formats;
+
+option optimize_for = LITE_RUNTIME;
+option java_outer_classname = "OpenAccessCredentialFormat";
+
+// Contains the Wiegand Data, and any other extensions.
+// A card may carry more than one PacsRecord, if multiple identifiers are
+// stored on a single card. In this case the systemId is used to identify
+// the system this PacsRecord relates to.
+message PacsRecord {
+    // reserved for future use
+    reserved 1 to 3;
+
+    // A wiegand bit string. See "Payload Specification" for details.
+    bytes wiegandData = 4;
+
+    // unique system identifier
+    int32 systemId = 5;
+
+    // tags <= 256 are reserved for future extensions to the OACF specification
+    reserved 6 to 256;
+}
+
+// General information about this Card and its associated user.
+message TokenInfo {
+    // reserved for future use
+    reserved 1 to 5;
+
+    // A unique identifer for the owner of the card
+    bytes userId = 6;
+
+    // A unique identifer for this token
+    bytes uid = 7;
+
+    // tags <= 256 are reserved for future extensions to the OACF specification
+    reserved 8 to 256;
+}
+
+// The top-level message for OACF. This is what is programmed on to the card.
+// The defaultPacsRecord is the primary PACS records for this card.
+// In most advanced cases, other PacsRecords are encoded in pacsRecord. This
+// permits cases where the Card may contain multiple identifiers, for example
+// when you want to put multiple legacy Wiegand card identifiers onto a single
+// OACF Card, for use with multiple systems.
+message CredentialEnvelope {
+    // The primary PACS record, containing Wiegand Data
+    PacsRecord defaultPacsRecord = 1;
+
+    // Additional PACS records, to encode multiple sets of wiegand data on a
+    // single card.
+    repeated PacsRecord pacsRecord = 2;
+
+    // General information about the Card holder.
+    TokenInfo token = 3;
+
+    // tags <= 256 are reserved for future extensions to the OACF specification
+    reserved 4 to 256;
+}

@@ -1,0 +1,63 @@
+
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.0'
+  }
+}
+
+repositories {
+  maven {
+    url "https://dev.idondemand.com/nexus/content/groups/idod-proxy"
+    credentials {
+      username System.properties['NEXUS_USER']
+      password System.properties['NEXUS_PASSWORD']
+    }
+  }
+  mavenLocal()
+}
+
+apply plugin: 'java'
+targetCompatibility = 1.8
+sourceCompatibility = 1.8
+jar.enabled = true
+
+apply plugin: 'com.google.protobuf'
+protobuf {
+  generatedFilesBaseDir = "$projectDir/generated/proto"
+  protoc {
+    artifact = 'com.google.protobuf:protoc:3.0.0'
+  }
+}
+
+apply plugin: 'idea'
+idea {
+  module {
+    sourceDirs += file("$projectDir/generated/proto/main/java");
+    // If you have additional sourceSets and/or codegen plugins, add all of them
+    //sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/grpc");
+  }
+}
+
+    //,c idea.module.sourceDirs += new File("${projectDir}/generated/src/SelfSignedCaStoreBean")
+
+tasks.withType(JavaCompile) {
+  options.compilerArgs += [
+    '-Xep:MissingOverride:OFF',
+    '-Xep:ReferenceEquality:OFF'
+  ]
+}
+
+
+dependencies {
+  compile 'com.google.protobuf:protobuf-java:3.0.0'
+  testCompile "com.idondemand:util:0.0.16"
+}
+
+
+task('clean') << {
+  ant.delete(dir: "$projectDir/generated")
+  ant.delete(dir: "$projectDir/build")
+}

@@ -1,0 +1,60 @@
+# eclipse
+.project
+.settings/
+.classpath
+.metadata/
+.gradle/
+gradle-app.setting
+gradle.properties
+
+# generated files
+generated/
+target/
+bin/
+*.class
+obj/
+Debug/
+Release/
+*.orig
+build/
+
+# intellij
+*.iml
+*.ipr
+*.iws
+.idea
+
+# vim?
+*~
+*.swp
+
+# visual studio & mplabs files
+*.user
+*.suo
+*.ncb
+*.o
+*.cof
+*.map
+*.hex
+*.err
+
+*.opensdf
+*.sdf
+
+# ruby
+.bundle/
+.sass-cache
+
+# mac
+.DS_Store
+
+# gradle
+.gradletasknamecache
+
+# vagrant
+.vagrant
+Vagrantfile.user.json
+
+*/gwt-unitCache/
+
+\#*
