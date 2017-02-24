@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2017 Identiv
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="746.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.identiv.apduengine.ui.CardInfoController">
+   <children>
+      <Button fx:id="btClose" layoutX="313.0" layoutY="361.0" mnemonicParsing="false" onAction="#onCloseAction" text="Close" />
+      <Label layoutX="31.0" layoutY="243.0" text="Major version:" />
+      <Label layoutX="31.0" layoutY="193.0" text="Type:" />
+      <Label layoutX="31.0" layoutY="140.0" text="Hardware Information (Need authenticated)">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbHType" layoutX="63.0" layoutY="193.0" text="Label" />
+      <Label fx:id="lbHMajorVer" layoutX="113.0" layoutY="243.0" text="Label" />
+      <Label fx:id="lbHCommProType" layoutX="203.0" layoutY="320.0" text="Label" />
+      <Label layoutX="32.0" layoutY="295.0" text="Storage size:" />
+      <Label fx:id="lbHVendorId" layoutX="99.0" layoutY="169.0" text="Label" />
+      <Label layoutX="30.0" layoutY="268.0" text="Minor version:" />
+      <Label layoutX="32.0" layoutY="320.0" text="Communication protocol type:" />
+      <Label fx:id="lbHMinorVer" layoutX="113.0" layoutY="268.0" text="Label" />
+      <Label layoutX="30.0" layoutY="218.0" text="Subtype:" />
+      <Label fx:id="lbHStorageSize" layoutX="106.0" layoutY="295.0" text="Label" />
+      <Label fx:id="lbHSubtype" layoutX="85.0" layoutY="218.0" text="Label" />
+      <Label layoutX="31.0" layoutY="169.0" text="Vendor ID:" />
+      <Label fx:id="lbSVendorId" layoutX="450.0" layoutY="169.0" text="Label" />
+      <Label fx:id="lbSStorageSize" layoutX="457.0" layoutY="295.0" text="Label" />
+      <Label layoutX="383.0" layoutY="320.0" text="Communication protocol type:" />
+      <Label fx:id="lbSMajorVer" layoutX="464.0" layoutY="243.0" text="Label" />
+      <Label layoutX="381.0" layoutY="218.0" text="Subtype:" />
+      <Label fx:id="lbSSubtype" layoutX="436.0" layoutY="218.0" text="Label" />
+      <Label layoutX="382.0" layoutY="243.0" text="Major version:" />
+      <Label fx:id="lbSMinorVer" layoutX="464.0" layoutY="268.0" text="Label" />
+      <Label fx:id="lbSCommProType" layoutX="554.0" layoutY="320.0" text="Label" />
+      <Label layoutX="382.0" layoutY="141.0" text="Software Information (Need authenticated)">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbSType" layoutX="414.0" layoutY="193.0" text="Label" />
+      <Label layoutX="382.0" layoutY="169.0" text="Vendor ID:" />
+      <Label layoutX="383.0" layoutY="295.0" text="Storage size:" />
+      <Label layoutX="382.0" layoutY="193.0" text="Type:" />
+      <Label layoutX="381.0" layoutY="268.0" text="Minor version:" />
+      <Label layoutX="29.0" layoutY="42.0" text="UID:" />
+      <Label fx:id="lbCalWeekProd" layoutX="192.0" layoutY="80.0" text="Label" />
+      <Label fx:id="lbYearProd" layoutX="141.0" layoutY="99.0" text="Label" />
+      <Label layoutX="30.0" layoutY="59.0" text="Production batch number:" />
+      <Label layoutX="28.0" layoutY="14.0" text="Desfire Information        ">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbProdBatchNum" layoutX="178.0" layoutY="59.0" text="Label" />
+      <Label layoutX="30.0" layoutY="99.0" text="Year of production:" />
+      <Label fx:id="lbUid" layoutX="59.0" layoutY="42.0" text="Label" />
+      <Label layoutX="30.0" layoutY="80.0" text="Calendar week of production:" />
+   </children>
+</AnchorPane>

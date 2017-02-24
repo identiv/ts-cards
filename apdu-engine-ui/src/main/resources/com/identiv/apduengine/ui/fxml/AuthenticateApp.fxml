@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2017 Identiv
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="326.0" prefWidth="513.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.identiv.apduengine.ui.AuthenticateAppController">
+   <children>
+      <ComboBox fx:id="cbTypes" layoutX="58.0" layoutY="55.0" onAction="#onCBtextChanged" prefWidth="150.0" />
+      <Label layoutX="32.0" layoutY="32.0" text="Authentication Type:" />
+      <Label layoutX="32.0" layoutY="86.0" text="Diversification:" />
+      <TextField fx:id="edDiversificationKey" layoutX="75.0" layoutY="184.0" prefHeight="25.0" prefWidth="266.0" text="FFEEDDCCBBAA99887766554433221100" />
+      <RadioButton fx:id="rbCmacAesKeyDiversification" layoutX="57.0" layoutY="156.0" mnemonicParsing="false" onAction="#rdAes" text="CMAC AES Key Diversification">
+         <toggleGroup>
+            <ToggleGroup fx:id="tgldiversification" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="rbNoKeyDiversification" layoutX="58.0" layoutY="112.0" mnemonicParsing="false" onAction="#onRdDES" selected="true" text="No Key Diversification" toggleGroup="$tgldiversification" />
+      <Button fx:id="btAuthenticate" layoutX="61.0" layoutY="237.0" mnemonicParsing="false" onAction="#onBtnAuthClicked" prefHeight="25.0" prefWidth="98.0" text="Authenticate" />
+   </children>
+</AnchorPane>

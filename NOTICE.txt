@@ -1,0 +1,5 @@
+Specification for the Open Access Card Data Format.
+
+Copyright 2016 Identiv, Inc.
+
+https://www.identiv.com

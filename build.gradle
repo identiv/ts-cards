@@ -1,0 +1,202 @@
+import org.gradle.api.Project;
+import org.gradle.api.Plugin;
+
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "net.sourceforge.pmd:pmd:5.0.1"
+    classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.8'
+  }
+
+}
+
+plugins {
+  id "io.spring.dependency-management" version "0.6.1.RELEASE"
+  id "us.kirchmeier.capsule" version "1.0.0"
+  id "com.github.hierynomus.license" version "0.13.1"
+}
+
+// Wrapper/bootstrapper setup
+task wrapper(type: Wrapper) {
+  gradleVersion = "2.14.1"
+}
+
+subprojects {
+  apply plugin: 'idea'
+  apply plugin: 'eclipse'
+  apply plugin: 'maven'
+
+  apply plugin: 'java'
+  compileJava.options.encoding = 'UTF-8'
+  jar.enabled = true
+  targetCompatibility = 1.8
+  sourceCompatibility = 1.8
+
+  apply plugin: 'groovy'
+
+  group = 'com.identiv.its'
+  version = "1.1.0-SNAPSHOT"
+
+  apply plugin: "io.spring.dependency-management"
+
+  dependencyManagement {
+    dependencies {
+      dependency 'junit:junit:4.8.2'
+      dependencySet(group:'org.slf4j', version: '1.7.7') {
+        entry 'slf4j-api'
+        entry 'slf4j-jdk14'
+      }
+      dependency "org.spockframework:spock-core:0.7-groovy-2.0"
+      dependency "org.codehaus.groovy:groovy-all:2.1.1"
+      dependency "com.google.guava:guava:16.0.1"
+      dependency "commons-cli:commons-cli:1.2"
+    }
+  }
+
+  repositories {
+    mavenCentral()
+  }
+
+  apply plugin: 'net.ltgt.errorprone'
+  configurations.errorprone {
+    // don't automatically update errorprone
+    resolutionStrategy.force 'com.google.errorprone:error_prone_core:2.0.15'
+  }
+
+  dependencies {
+    testCompile 'junit:junit'
+    testRuntime "org.slf4j:slf4j-jdk14"
+  }
+
+  test {
+    systemProperties 'idod.test.runner': 'gradle'
+    systemProperties 'java.awt.headless': "true"
+    beforeTest { descriptor ->
+      logger.lifecycle("Running " + descriptor)
+    }
+  }
+
+
+  apply plugin: "com.github.hierynomus.license"
+  license {
+    header rootProject.file('buildSrc/src/main/resources/HEADER')
+    mapping 'fxml', 'XML_STYLE'
+  }
+
+
+}
+
+if (hasProperty('idod.verbose')) {
+  configure(javaProjects()) {
+    test {
+      onOutput { descriptor, event ->
+        logger.lifecycle(descriptor.name + "> " + event.message.toString().trim() )
+      }
+    }
+  }
+}
+
+apply plugin: 'idea'
+idea.project {
+  jdkName = '1.8'
+  languageLevel = '1.8'
+  ipr {
+    withXml { provider ->
+      provider.node.component.find {
+        it.@name == 'VcsDirectoryMappings'
+      }.mapping.@vcs = 'Git'
+    }
+  }
+}
+
+
+project(':apdu-engine') {
+
+  configurations {
+    testOutput
+  }
+
+  dependencies {
+    compile "com.google.guava:guava"
+    compile "org.slf4j:slf4j-api"
+
+    runtime "commons-cli:commons-cli"
+
+    testCompile "org.spockframework:spock-core"
+
+    testOutput sourceSets.test.output
+  }
+
+  task packageSources(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.java.srcDirs
+  }
+
+  build.dependsOn('packageSources')
+
+  artifacts {
+    archives packageSources
+  }
+
+  jar.dependsOn('packageSources')
+}
+
+project(':apdu-engine-cli') {
+
+  apply plugin: "us.kirchmeier.capsule"
+
+  dependencies {
+    compile project(':apdu-engine')
+    compile project(':identiv-oacf')
+    compile "org.codehaus.groovy:groovy-all"
+    testCompile project(path: ':apdu-engine', configuration: 'testOutput')
+
+    runtime "org.slf4j:slf4j-jdk14"
+  }
+
+  task fatCapsule(type: FatCapsule) {
+    applicationClass 'com.identiv.apduengine.cli.ApduEngineCliWrapper'
+    capsuleManifest {
+      minJavaVersion = '1.8.0'
+    }
+  }
+
+  assemble.dependsOn(fatCapsule)
+}
+
+project(':apdu-engine-ui') {
+  apply plugin: "us.kirchmeier.capsule"
+
+  dependencies {
+    compile project(':apdu-engine')
+    compile project(':identiv-oacf')
+    testCompile project(path: ':apdu-engine', configuration: 'testOutput')
+
+    runtime "org.slf4j:slf4j-jdk14"
+  }
+
+  task fatCapsule(type: FatCapsule) {
+    applicationClass 'com.identiv.apduengine.ui.ApduEngineUi'
+    capsuleManifest {
+      minJavaVersion = '1.8.0'
+    }
+  }
+
+  assemble.dependsOn(fatCapsule)
+}
+
+project(':identiv-oacf') {
+  dependencies {
+    testCompile "org.spockframework:spock-core"
+  }
+}
+
+configurations { pmd }
+dependencies {
+  pmd "net.sourceforge.pmd:pmd:5.0.1"
+}
+

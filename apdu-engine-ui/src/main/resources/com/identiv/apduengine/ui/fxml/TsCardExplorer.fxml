@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2017 Identiv
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="506.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.identiv.apduengine.ui.TsCardExplorerController">
+   <children>
+      <SplitPane dividerPositions="0.6407035175879398" layoutX="166.0" layoutY="57.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TabPane layoutX="41.0" layoutY="26.0" prefHeight="252.0" prefWidth="598.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <tabs>
+                      <Tab text="Authentication">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="btAuthenticate" layoutX="106.0" layoutY="231.0" mnemonicParsing="false" onAction="#onBtnAuthClicked" prefHeight="25.0" prefWidth="103.0" text="Authenticate" />
+                                    <RadioButton fx:id="rbNoKeyDiversification" layoutX="48.0" layoutY="102.0" mnemonicParsing="false" onAction="#onRdDES" selected="true" text="No Key Diversification">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="tgldiversification" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="rbCmacAesKeyDiversification" layoutX="47.0" layoutY="156.0" mnemonicParsing="false" onAction="#rdAes" text="CMAC AES Key Diversification" toggleGroup="$tgldiversification" />
+                                    <TextField fx:id="edDiversificationKey" layoutX="65.0" layoutY="184.0" prefHeight="25.0" prefWidth="266.0" text="0F1E2D3C4B5A69788796A5B4C3D2E1F0" />
+                                    <Label layoutX="22.0" layoutY="76.0" text="Diversification:" />
+                                    <Label layoutX="22.0" layoutY="22.0" text="Authentication Type:" />
+                                    <ComboBox fx:id="cbTypes" layoutX="48.0" layoutY="45.0" onAction="#onCBtextChanged" prefWidth="150.0" />
+                                    <Label fx:id="lbResultTabAuth" layoutX="47.0" layoutY="260.0" prefHeight="17.0" prefWidth="265.0" textFill="#eb1515" />
+                                    <Button fx:id="btCardInfo" layoutX="22.0" layoutY="231.0" mnemonicParsing="false" onAction="#onBtnCardInfoClicked" prefHeight="25.0" prefWidth="70.0" text="Card Info" />
+                                    <Button fx:id="btChangePiccKey" layoutX="220.0" layoutY="231.0" mnemonicParsing="false" onAction="#onBtnChangePiccKeyClicked" prefHeight="25.0" prefWidth="117.0" text="Change PICC Key" visible="false" />
+                                    <TextField fx:id="edNoDivKey" layoutX="65.0" layoutY="125.0" prefHeight="25.0" prefWidth="266.0" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab text="App [Get, Select &amp; Delete]">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Label layoutX="31.0" layoutY="14.0" text="App IDs" />
+                                    <TableView fx:id="tbViewAppIDs" layoutX="31.0" layoutY="31.0" prefHeight="222.0" prefWidth="202.0" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="31.0">
+                                      <columns>
+                                        <TableColumn fx:id="appIdCol" prefWidth="75.0" text="App ID" />
+                                        <TableColumn fx:id="selCol" prefWidth="75.0" text="Sel?" />
+                                      </columns>
+                                    </TableView>
+                                    <VBox layoutX="254.0" layoutY="158.0" prefHeight="95.0" prefWidth="159.0" spacing="10.0" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="254.0">
+                                       <children>
+                                          <Button fx:id="btGetIDs" layoutX="253.0" layoutY="168.0" mnemonicParsing="false" onAction="#onBtnGetAppIDsClicked" text="Get App IDs" />
+                                          <Button fx:id="btSelectApp" layoutX="253.0" layoutY="202.0" mnemonicParsing="false" onAction="#onBtnSelectAppClicked" prefHeight="25.0" prefWidth="156.0" text="Select and Authenticate" />
+                                          <Button fx:id="btDeleteApp" disable="true" layoutX="253.0" layoutY="234.0" mnemonicParsing="false" onAction="#onBtnDeleteAppClicked" prefHeight="25.0" prefWidth="84.0" text="Delete App" />
+                                       </children>
+                                    </VBox>
+                                    <Label fx:id="lbResultTabApp" layoutX="38.0" layoutY="260.0" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                        <Tab text="Data File Access">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Label layoutX="29.0" layoutY="39.0" text="File ID" />
+                                    <Label layoutX="30.0" layoutY="68.0" text="Comm Type" />
+                                    <Label layoutX="30.0" layoutY="103.0" text="Offset" />
+                                    <Label layoutX="28.0" layoutY="133.0" text="Length" />
+                                    <Label layoutX="266.0" layoutY="20.0" text="Data [Hex]" />
+                                    <TextArea layoutX="265.0" layoutY="38.0" prefHeight="120.0" prefWidth="337.0" />
+                                    <HBox layoutX="265.0" layoutY="166.0" spacing="10.0">
+                                       <children>
+                                          <Button disable="true" layoutX="278.0" layoutY="162.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Write" />
+                                          <Button disable="true" layoutX="348.0" layoutY="162.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Read" />
+                                          <Button disable="true" layoutX="419.0" layoutY="162.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Commit" />
+                                          <Button disable="true" layoutX="489.0" layoutY="162.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Abort" />
+                                       </children>
+                                    </HBox>
+                                    <TextField layoutX="100.0" layoutY="99.0" prefHeight="25.0" prefWidth="80.0" text="000000" />
+                                    <TextField layoutX="99.0" layoutY="129.0" prefHeight="25.0" prefWidth="81.0" text="0A0000" />
+                                    <ComboBox layoutX="102.0" layoutY="35.0" prefHeight="25.0" prefWidth="76.0" />
+                                    <ComboBox layoutX="101.0" layoutY="64.0" prefHeight="25.0" prefWidth="142.0" />
+                                 </children></AnchorPane>
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TitledPane layoutX="138.0" layoutY="-48.0" prefHeight="140.0" prefWidth="598.0" text="History" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <TableView fx:id="tbViewHistory" prefHeight="200.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn fx:id="statusCol" prefWidth="87.0" text="Status" />
+                              <TableColumn fx:id="cmdCol" prefWidth="136.0" text="Action" />
+                              <TableColumn fx:id="uidCol" prefWidth="211.0" text="UID" />
+                              <TableColumn fx:id="receivedDataCol" prefWidth="261.0" text="Received data" />
+                          </columns>
+                           <contextMenu>
+                              <ContextMenu>
+                                <items>
+                                  <MenuItem fx:id="miClear" mnemonicParsing="false" onAction="#miClearOnAction" text="Clear" />
+                                </items>
+                              </ContextMenu>
+                           </contextMenu>
+                        </TableView>
+                     </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

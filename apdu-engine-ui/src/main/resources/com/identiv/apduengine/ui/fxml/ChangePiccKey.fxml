@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2017 Identiv
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.identiv.apduengine.ui.ChangePiccKeyController">
+   <children>
+      <Button fx:id="btOK" layoutX="41.0" layoutY="239.0" mnemonicParsing="false" onAction="#onBtnOkClicked" prefHeight="25.0" prefWidth="98.0" text="OK" />
+      <RadioButton fx:id="rbNoKeyDiversification" layoutX="48.0" layoutY="118.0" mnemonicParsing="false" onAction="#onRdDES" selected="true" text="No Key Diversification">
+         <toggleGroup>
+            <ToggleGroup fx:id="tgldiversification" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="rbCmacAesKeyDiversification" layoutX="50.0" layoutY="175.0" mnemonicParsing="false" onAction="#rdAes" text="CMAC AES Key Diversification" toggleGroup="$tgldiversification" />
+      <TextField fx:id="edDiversificationKey" layoutX="67.0" layoutY="200.0" prefHeight="25.0" prefWidth="266.0" text="0F1E2D3C4B5A69788796A5B4C3D2E1F0" />
+      <Label layoutX="29.0" layoutY="88.0" text="Diversification:" />
+      <Label layoutX="35.0" layoutY="25.0" text="Authentication Type:" />
+      <ComboBox fx:id="cbTypes" layoutX="50.0" layoutY="49.0" onAction="#onCBtextChanged" prefWidth="150.0" />
+      <TextField fx:id="edNoDivKey" layoutX="67.0" layoutY="142.0" prefHeight="25.0" prefWidth="266.0" />
+   </children>
+</AnchorPane>

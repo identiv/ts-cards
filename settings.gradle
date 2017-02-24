@@ -1,0 +1,1 @@
+include  "apdu-engine", "identiv-oacf", "apdu-engine-cli", "apdu-engine-ui"
