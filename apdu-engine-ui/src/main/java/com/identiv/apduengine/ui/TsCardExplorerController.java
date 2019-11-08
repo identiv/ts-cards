@@ -173,10 +173,13 @@ public class TsCardExplorerController implements Initializable {
 
         } catch (CardException ex) {
             lbResultTabAuth.setText(ex.getMessage());
+            logger.debug("error on authenticating", ex);
         } catch (RuntimeException ex2) {
             lbResultTabAuth.setText(ex2.getMessage());
+            logger.debug("error on authenticating", ex2);
         } catch (Exception ex3) {
             lbResultTabAuth.setText(ex3.getMessage());
+            logger.debug("error on authenticating", ex3);
         }
     }
 
@@ -244,6 +247,7 @@ public class TsCardExplorerController implements Initializable {
             logger.error("error getting AppIDs", ex);
         } catch (RuntimeException ex2) {
             lbResultTabApp.setText(ex2.getMessage());
+            logger.debug("error getting AppIDs", ex2);
         }
 
     }
@@ -288,6 +292,7 @@ public class TsCardExplorerController implements Initializable {
 
         } catch (Exception e) {
             lbResultTabApp.setText(e.getMessage());
+            logger.debug("error on selecting app", e);
         }
 
     }
@@ -409,6 +414,7 @@ public class TsCardExplorerController implements Initializable {
             }
         } catch (Exception e) {
             lbResultTabApp.setText(e.getMessage());
+            logger.debug("error retrieving card info", e);
         }
     }
 
@@ -437,6 +443,7 @@ public class TsCardExplorerController implements Initializable {
             stage.showAndWait();
         } catch (Exception e) {
             lbResultTabApp.setText(e.getMessage());
+            logger.debug("error changing PICC key", e);
         }
     }
 
