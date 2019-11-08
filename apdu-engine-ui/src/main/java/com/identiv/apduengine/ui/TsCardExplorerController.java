@@ -103,18 +103,18 @@ public class TsCardExplorerController implements Initializable {
     private Button btChangePiccKey;
     @FXML
     private TextField edNoDivKey;
-    
+
     ObservableList<HistoryModel> historyData = FXCollections.observableArrayList();
     public static final String OPT_2K3DES = "2K3DES";
     public static final String OPT_3K3DES = "3K3DES";
     public static final String OPT_AES = "AES";
-    
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cbTypes.getItems().addAll(OPT_2K3DES, OPT_3K3DES, OPT_AES);
         cbTypes.setValue(OPT_2K3DES);
-        
+
         disableTextControl4Key();
 
         //configuration for table AppIDs
@@ -127,7 +127,7 @@ public class TsCardExplorerController implements Initializable {
         uidCol.setCellValueFactory(new PropertyValueFactory<>("uid"));
         receivedDataCol.setCellValueFactory(new PropertyValueFactory<>("receivedData"));
         tbViewHistory.setItems(historyData);
-        
+
         setupUI();
     }
 
@@ -263,7 +263,7 @@ public class TsCardExplorerController implements Initializable {
                     selectAppCmd
             );
             status = session.transmit(transmitter);
-            
+
             String uid = getParamValueByKey(session, DesfireGetCardUID.CARD_UID_KEY);
             String receivedData = "AID: " + getParamValueByKey(session, SelectTsApplication.AID_KEY);
             historyData.add(0, new HistoryModel(
@@ -273,8 +273,8 @@ public class TsCardExplorerController implements Initializable {
                 receivedData));//received data
 
             if (status.getStatus() == ApduStatus.SUCCESS) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/AuthenticateApp.fxml")); 
-                Parent root = (Parent)fxmlLoader.load(); 
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/AuthenticateApp.fxml"));
+                Parent root = (Parent)fxmlLoader.load();
                 AuthenticateAppController controller = fxmlLoader.<AuthenticateAppController>getController();
                 controller.setSession(session, historyData);
                 Stage stage = new Stage();
@@ -338,7 +338,7 @@ public class TsCardExplorerController implements Initializable {
             SmartcardIoTransmitter transmitter = SmartcardIoTransmitter.create();
             ApduSession session = new ApduSession();
             StatusResponse status;
-            
+
             String auth_key = null;
             if (checkUseKeyDiv()) {
                 auth_key = edDiversificationKey.getText().trim();
@@ -392,18 +392,18 @@ public class TsCardExplorerController implements Initializable {
                         getParamValueByKey(session, GetVersionExt.S_STORAGE_SIZE),//String sStorageSize,
                         getParamValueByKey(session, GetVersionExt.S_COMM_PROTOCAL_TYPE)//String sCommProtocalType
                         );
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/CardInfo.fxml")); 
-                Parent root = (Parent)fxmlLoader.load(); 
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/CardInfo.fxml"));
+                Parent root = (Parent)fxmlLoader.load();
                 CardInfoController controller = fxmlLoader.<CardInfoController>getController();
                 controller.setCardInfoModel(cim);
                 Stage stage = new Stage();
                 stage.setTitle("Card Info");
                 stage.setScene(new Scene(root, 650,430));
-                
+
                 controller.setStage(stage);
 
                 stage.showAndWait();
-            }   
+            }
         } catch (Exception e) {
             lbResultTabApp.setText(e.getMessage());
         }
@@ -416,9 +416,9 @@ public class TsCardExplorerController implements Initializable {
             ApduSession session = new ApduSession();
             session.nextCommands(new GetVersion());
             session.transmit(transmitter);
-                
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/ChangePiccKey.fxml")); 
-            Parent root = (Parent)fxmlLoader.load(); 
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/ChangePiccKey.fxml"));
+            Parent root = (Parent)fxmlLoader.load();
             ChangePiccKeyController controller = fxmlLoader.<ChangePiccKeyController>getController();
 
             String curr_key = checkUseKeyDiv()
