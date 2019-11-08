@@ -29,8 +29,6 @@ import com.identiv.apduengine.engine.StatusResponse;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.identiv.apduengine.engine.util.Hex;
 import javafx.collections.FXCollections;
@@ -55,7 +53,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javax.smartcardio.CardException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TsCardExplorerController implements Initializable {
+
+    static final Logger logger = LoggerFactory.getLogger(TsCardExplorerController.class);
 
     @FXML
     private TextField edDiversificationKey;
@@ -238,7 +241,7 @@ public class TsCardExplorerController implements Initializable {
 
         } catch (CardException ex) {
             lbResultTabApp.setText(ex.getMessage());
-            Logger.getLogger(TsCardExplorerController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("error getting AppIDs", ex);
         } catch (RuntimeException ex2) {
             lbResultTabApp.setText(ex2.getMessage());
         }
