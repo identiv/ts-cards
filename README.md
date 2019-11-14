@@ -147,7 +147,7 @@ a session key) using a default (i.e. all zeros) AES key.
 
         ApduSession session = new ApduSession(
             new SelectPicc(),
-            new DesfireAuth(new byte[16], DesfireKeyType.AES_128);
+            new DesfireAuth(new byte[16], DesfireKeyType.AES_128));
         StatusResponse status = session.transmit(
             SmartcardIoTransmitter.create());
 
