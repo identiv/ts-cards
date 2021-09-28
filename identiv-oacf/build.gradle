@@ -53,7 +53,7 @@ tasks.withType(JavaCompile) {
 
 dependencies {
   compile 'com.google.protobuf:protobuf-java:3.0.0'
-  testCompile "com.idondemand:util:0.0.16"
+  //testCompile "com.idondemand:util:0.0.16"
 }
 
 

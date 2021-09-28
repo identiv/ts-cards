@@ -16,8 +16,9 @@
 package com.identiv.shared.formats
 
 import com.google.protobuf.ByteString
-import com.idondemand.client.utils.Hex
+import org.apache.commons.codec.binary.Hex;
 import spock.lang.Specification
+import org.apache.commons.codec.DecoderException;
 
 
 import static com.identiv.shared.formats.OpenAccessCredentialFormat.CredentialEnvelope;
@@ -26,10 +27,18 @@ import static com.identiv.shared.formats.OpenAccessCredentialFormat.CredentialEn
  */
 class EncodingTest extends Specification {
 
+    public static byte[] decodeHex(String input) {
+        try {
+            return Hex.decodeHex(input.toCharArray());
+        } catch (DecoderException e) {
+            throw new IllegalStateException("Hex Decoder exception", e);
+        }
+    }
+
     void "simple format examples"(String payload, String result) {
         when:
             // encode
-            byte[] payloadBytes = Hex.decode(payload)
+            byte[] payloadBytes = decodeHex(payload)
             OpenAccessCredentialFormat.CredentialEnvelope envelope =
                 OpenAccessCredentialFormat.CredentialEnvelope.newBuilder()
                     .setDefaultPacsRecord(
@@ -45,21 +54,21 @@ class EncodingTest extends Specification {
                     .getWiegandData().toByteArray()
 
         then:
-            Hex.encode(envelopeBytes) == result
-            Hex.encode(decoded) == payload
+            Hex.encodeHexString(envelopeBytes) == result
+            Hex.encodeHexString(decoded) == payload
 
         where:
             payload         || result
-            "250000000150"  || "0A082206250000000150"
-            "230028001A60"  || "0A082206230028001A60"
-            "1A00110011"    || "0A0722051A00110011"
-            "2502479D9970"  || "0A0822062502479D9970"
+            "250000000150"  || "0a082206250000000150"
+            "230028001a60"  || "0a082206230028001a60"
+            "1a00110011"    || "0a0722051a00110011"
+            "2502479d9970"  || "0a0822062502479d9970"
 
     }
 
     void "complex format examples"(String payload, String uid, String result) {
         when:
-            byte[] payloadBytes = Hex.decode(payload)
+            byte[] payloadBytes = decodeHex(payload)
             OpenAccessCredentialFormat.CredentialEnvelope envelope =
                 OpenAccessCredentialFormat.CredentialEnvelope.newBuilder()
                     .setDefaultPacsRecord(
@@ -70,20 +79,20 @@ class EncodingTest extends Specification {
                     .setToken(
                         OpenAccessCredentialFormat.TokenInfo.newBuilder()
                             .setUid(ByteString.copyFrom(
-                                Hex.decode(uid)))
+                                decodeHex(uid)))
                             .build())
                     .build();
             byte[] envelopeBytes = envelope.toByteArray()
         then:
-            Hex.encode(envelopeBytes) == result
+            Hex.encodeHexString(envelopeBytes) == result
         where:
             payload          | uid                || result
             "250000000150"   | "0001020304050607" ||
-                                 "0A0822062500000001501A0A3A080001020304050607"
-            "230028001A60"   | "0102030405060708" ||
-                                 "0A082206230028001A601A0A3A080102030405060708"
-            "1A00110011"     | "0203040506070809" ||
-                                 "0A0722051A001100111A0A3A080203040506070809"
+                                 "0a0822062500000001501a0a3a080001020304050607"
+            "230028001a60"   | "0102030405060708" ||
+                                 "0a082206230028001a601a0a3a080102030405060708"
+            "1a00110011"     | "0203040506070809" ||
+                                 "0a0722051a001100111a0a3a080203040506070809"
     }
 
 }

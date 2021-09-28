@@ -16,17 +16,26 @@
 package com.identiv.shared.formats;
 
 import com.google.protobuf.ByteString;
-import com.idondemand.client.utils.Hex;
+import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
+import org.apache.commons.codec.DecoderException;
 
 /**
  */
 public class EnvelopeTest {
 
+    public static byte[] decodeHex(String input) {
+        try {
+            return Hex.decodeHex(input.toCharArray());
+        } catch (DecoderException e) {
+            throw new IllegalStateException("Hex Decoder exception", e);
+        }
+    }
+
     @Test
     public void formatDemo() {
         // 3535D (4050, 1000000)
-        byte[] fixedBytes = Hex.decode("23FF4BD09000");
+        byte[] fixedBytes = decodeHex("23FF4BD09000");
 
         OpenAccessCredentialFormat.PacsRecord pacsRecord =
                 OpenAccessCredentialFormat.PacsRecord.newBuilder()
@@ -39,14 +48,14 @@ public class EnvelopeTest {
                 .build();
 
         System.out.println(envelope.toString());
-        System.out.println("************" + Hex.encode(fixedBytes));
-        System.out.println(Hex.encode(envelope.toByteArray()));
+        System.out.println("************" + Hex.encodeHexString(fixedBytes));
+        System.out.println(Hex.encodeHexString(envelope.toByteArray()));
     }
 
     @Test
     public void formatDemo37DNoChecksum() {
         // 37D (17265057273)
-        byte[] fixedBytes = Hex.decode("25C0513DDF98");
+        byte[] fixedBytes = decodeHex("25C0513DDF98");
 
         OpenAccessCredentialFormat.CredentialEnvelope envelope =
             OpenAccessCredentialFormat.CredentialEnvelope.newBuilder()
@@ -57,13 +66,13 @@ public class EnvelopeTest {
                 .build();
 
         System.out.println(envelope.toString());
-        System.out.println("************" + Hex.encode(fixedBytes));
-        System.out.println(Hex.encode(envelope.toByteArray()));
+        System.out.println("************" + Hex.encodeHexString(fixedBytes));
+        System.out.println(Hex.encodeHexString(envelope.toByteArray()));
     }
 
     @Test
     public void bigDemo() {
-        byte[] fixedBytes = Hex.decode("25C0513DDF98");
+        byte[] fixedBytes = decodeHex("25C0513DDF98");
 
         OpenAccessCredentialFormat.CredentialEnvelope envelope =
             OpenAccessCredentialFormat.CredentialEnvelope.newBuilder()
@@ -79,8 +88,8 @@ public class EnvelopeTest {
                 .build();
 
         System.out.println(envelope.toString());
-        System.out.println("************" + Hex.encode(fixedBytes));
-        System.out.println(Hex.encode(envelope.toByteArray()));
+        System.out.println("************" + Hex.encodeHexString(fixedBytes));
+        System.out.println(Hex.encodeHexString(envelope.toByteArray()));
     }
 
 }
